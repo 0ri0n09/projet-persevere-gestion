@@ -1,5 +1,29 @@
 {
   "dependencies": {
     "firebase": "^9.8.0"
+  },
+  "name": "projet-persevere-gestion",
+  "description": "Projet UF B2 - Persevere",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tailwindcss build -i ./src/tailwind.css -o ./public/tailwind.css",
+    "build": "NODE_ENV=production npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0ri0n09/projet-persevere-gestion.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0ri0n09/projet-persevere-gestion/issues"
+  },
+  "homepage": "https://github.com/0ri0n09/projet-persevere-gestion#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.7",
+    "tailwindcss": "^3.0.24"
   }
 }
