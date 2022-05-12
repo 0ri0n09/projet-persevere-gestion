@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>SITE PERSEVERE</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/login.css">
+
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    </head>
+    <body>
+        
+        <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
+            <div class="shadow bg-info border-l-8 hover:bg-info-dark border-info-dark mb-2 p-2 md:w-1/4 mx-2">
+                <div class="p-4 flex flex-col">
+                    <img class="fit-picture"
+                    src="https://p5.storage.canalblog.com/58/72/677336/46352644.jpg"
+                    alt="Super terre1">
+                </div>
+            </div>
+
+            <div class="shadow bg-info border-l-8 hover:bg-info-dark border-info-dark mb-2 p-2 md:w-1/4 mx-2">
+                <div class="p-4 flex flex-col">
+                    <img class="fit-picture"
+                    src="gs://persevere-9b1cd.appspot.com/20220426_022736.jpg"
+                    alt="Super terre2">
+                </div>
+            </div>
+
+            <div class="shadow bg-info border-l-8 hover:bg-info-dark border-info-dark mb-2 p-2 md:w-1/4 mx-2">
+                <div class="p-4 flex flex-col">
+                    <img class="fit-picture"
+                    src="/src/img/terre.png"
+                    alt="Super terre3">
+                </div>
+            </div>
+        </div>
+        
+        <div class="limiter">
+            <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-form-title" style="background-image: url(assets/logo.gif);">
+                    <span class="login100-form-title-1">
+                    Interface de gestion
+                    </span>
+                </div>
+                <div class="login100-form validate-form">
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="L'email est requis">
+                        <span class="label-input100">Email</span>
+                        <input class="input100" type="text" id="email" placeholder="Entrez l'email">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-18" data-validate="Le mot de passe est requis">
+                        <span class="label-input100">Mot de passe</span>
+                        <input class="input100" type="password" id="password" placeholder="Entrer le mot de passe">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn" id="login">
+                        Se connecter
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        
+      <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+      <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+
+      <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+      <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
+
+      <!-- Add Firebase products that you want to use -->
+      <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+      <script src="js/authentication.js"></script>
+    </body>
+</html>
