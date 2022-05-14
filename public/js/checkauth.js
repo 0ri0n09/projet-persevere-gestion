@@ -15,6 +15,6 @@ firebase.analytics();
 firebase.auth().onAuthStateChanged((user) => {
     if (!user) {
         // if the users are not signed in, we redirect them to the signin form
-        window.location.href = '/';
+        window.location.href = './index.html';
     }
 });
