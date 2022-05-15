@@ -33,7 +33,7 @@ loginBtn.addEventListener('click', () => {
 
                     document.getElementById("error").innerHTML=`
                     <strong style="color:#FF0000">
-                        Email et/ou mot de passe non valide(s)
+                        Email et/ou mot de passe non valide(s) !
                     </strong>`;
                 });
         })
