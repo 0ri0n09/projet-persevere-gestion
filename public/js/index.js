@@ -22,18 +22,16 @@ loginBtn.addEventListener('click', () => {
             const password = document.getElementById('password');
             console.log(email, password);
             firebase.auth().signInWithEmailAndPassword(email.value, password.value)
-                .then(() => {
+                .then((userCredential) => {
+                    const userUID = userCredential.user.uid;
                     window.location.href = './accueil.html';
+                    console.log(userUID);
                 })
                 .catch((error) => {
-                    console.error("Cannot login:", error.code, error.message);
+                    console.error("Cannot signup:", error.code, error.message);
                 });
         })
         .catch((error) => {
-            console.error("Cannot login:", error.code, error.message);
+            console.error("Cannot signup:", error.code, error.message);
         });
-})
-
-loginBtn.addEventListener('click', () => {
-    window.location.href = './accueil.html';
 })
