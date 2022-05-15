@@ -19,7 +19,7 @@
                   <label for="email" class="block text-sm text-gray-800">Entrez votre Email</label>
                 </strong>
                     <div class="block w-full px-4 py-2 mt-2 text-blue-70 0 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
-                        <input class="input100" type="text" id="email" placeholder="Entrez l'email">
+                        <input type="email" id="email" placeholder="Entrez l'email">
                     </div>
 
                     <br>
@@ -27,8 +27,12 @@
                       <label for="password" class="block text-sm text-gray-800">Entrez votre mot de passe</label>
                     </strong>
                     <div class="block w-full px-4 py-2 mt-2 text-blue-700 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
-                        <input class="input100" type="text" id="password" placeholder="Entrez un mot de passe">
-                    </div>   
+                        <input type="password" id="password" placeholder="Entrez un mot de passe">
+                    </div>
+                    
+                    <div id="error">
+
+                    </div>
                     
                     <div class="mt-6">
                         <button id="signup"
