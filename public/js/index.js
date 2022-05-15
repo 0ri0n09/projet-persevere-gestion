@@ -29,11 +29,11 @@ loginBtn.addEventListener('click', () => {
                 })
                 .catch((error) => {
                     console.error("Cannot signup:", error.code, error.message);
-                    console.error("Email ou Mot de passe invalide", error.code, error.message);
+                    console.error("Email et/ou Mot de passe invalide", error.code, error.message);
 
                     document.getElementById("error").innerHTML=`
                     <strong style="color:#FF0000">
-                        Email ou mot de passe non valide(s)
+                        Email et/ou mot de passe non valide(s)
                     </strong>`;
                 });
         })
