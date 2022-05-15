@@ -14,17 +14,18 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 const db = firebase.firestore();
-const loginBtn = document.getElementById('signup');
+const signUpBtn = document.getElementById('signup');
 
-loginBtn.addEventListener('click', () => {
+signUpBtn.addEventListener('click', () => {
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
         .then(() => {
             const email = document.getElementById('email');
             const password = document.getElementById('password');
+            console.log(email, password);
             firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
                 .then((userCredential) => {
                     const userUID = userCredential.user.uid;
-                    addUser(userUID, email.value);
+                    addUser(userUID, email.value, password.value);
                 })
                 .catch((error) => {
                     console.error("Cannot signup:", error.code, error.message);
@@ -35,10 +36,11 @@ loginBtn.addEventListener('click', () => {
         });
 })
 
-const addUser = (userUID, email) => 
+const addUser = (userUID, email, password) => 
 {
     db.collection("users").doc(userUID).set({
         email: email,
+        password: password,
         id: userUID,
     })
     .then(() => {
