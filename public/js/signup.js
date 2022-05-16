@@ -53,6 +53,7 @@ const addUser = (userUID, email, password, name) =>
         password: password,
         id: userUID,
         name: name,
+        role: "user",
     })
     .then(() => {
         console.log("Document written with ID:", userUID);
