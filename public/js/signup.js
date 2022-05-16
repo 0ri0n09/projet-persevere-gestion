@@ -21,6 +21,8 @@ signUpBtn.addEventListener('click', () => {
         .then(() => {
             const email = document.getElementById('email');
             const password = document.getElementById('password');
+            //const displayName = document.getElementById('name');
+
             console.log(email, password);
             firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
                 .then((userCredential) => {
@@ -48,6 +50,7 @@ const addUser = (userUID, email, password) =>
         email: email,
         password: password,
         id: userUID,
+        //displayName: displayName,
     })
     .then(() => {
         console.log("Document written with ID:", userUID);
