@@ -21,13 +21,14 @@ signUpBtn.addEventListener('click', () => {
         .then(() => {
             const email = document.getElementById('email');
             const password = document.getElementById('password');
-            //const displayName = document.getElementById('name');
+            const name = document.getElementById('name');
 
-            console.log(email, password);
+            //console.log(email, password);
+            console.log(name.value)
             firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
                 .then((userCredential) => {
                     const userUID = userCredential.user.uid;
-                    addUser(userUID, email.value, password.value);
+                    addUser(userUID, email.value, password.value, name.value);
                 })
                 .catch((error) => {
                     console.error("Cannot signup:", error.code, error.message);
@@ -44,13 +45,15 @@ signUpBtn.addEventListener('click', () => {
         });
 })
 
-const addUser = (userUID, email, password) => 
+const addUser = (userUID, email, password, name) => 
 {
+    console.log(name)
     db.collection("users").doc(userUID).set({
         email: email,
         password: password,
         id: userUID,
-        //displayName: displayName,
+        name: name,
+        test: "TESSST",
     })
     .then(() => {
         console.log("Document written with ID:", userUID);
@@ -59,4 +62,6 @@ const addUser = (userUID, email, password) =>
     .catch((error) => {
         console.error("Error adding document:", error);
     });
+
+    
 }

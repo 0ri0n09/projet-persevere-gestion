@@ -7,7 +7,8 @@ firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         // if the users are not signed in, we redirect them to the signin form
         console.log("CONNECTE =   "+ user.uid);
-        console.log("DISPLAY =   "+ user.displayName);
+        console.log("EMAIL =   "+ user.email);
+        console.log("NAME =   "+ user.name);
         
   /*user.updateProfile({
     displayName: "Mr.YOLO",
@@ -30,12 +31,29 @@ users.then((snap) => {
     })
 });
 
-
-firebase.auth().onAuthStateChanged((user) => {
+var nameUser;
+firebase.auth().onAuthStateChanged((user) => 
+{
     if (user) {
-        document.getElementById("username").innerHTML = user.email;
-
+      console.log(user)
     }
+    var docRef = db.collection("users").doc(user.uid);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+
+            var data = doc.data();
+            nameUser = data.name;
+            document.getElementById("username").innerHTML = nameUser;
+            console.log("nameUSER : "+nameUser);
+            
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+      });
 });
 
 const logout = document.getElementById('logout');
@@ -43,5 +61,4 @@ logout.addEventListener('click', () => {
     firebase.auth().signOut();
     window.location.href = './index.html';
 });
-
                     
