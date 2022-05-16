@@ -1,33 +1,11 @@
 
 const db = firebase.firestore();
-//db.settings({timestampInSnapshots : true});
+
+//GetAllUsers
 const users = db.collection('users').get();
-
-firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        // if the users are not signed in, we redirect them to the signin form
-        console.log("CONNECTE =   "+ user.uid);
-        console.log("EMAIL =   "+ user.email);
-        console.log("NAME =   "+ user.name);
-        
-  /*user.updateProfile({
-    displayName: "Mr.YOLO",
-    photoURL: "https://example.com/jane-q-user/profile.jpg"
-  }).then(() => {
-    // Update successful
-    // ...
-  }).catch((error) => {
-    // An error occurred
-    // ...
-  });*/
-        
-    }
-});
-
-
 users.then((snap) => {
     snap.docs.forEach((doc) => {
-        console.log(doc.id);
+        console.log(doc);
     })
 });
 
