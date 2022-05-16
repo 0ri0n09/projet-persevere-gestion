@@ -1,13 +1,4 @@
-
 const db = firebase.firestore();
-
-//GetAllUsers
-const users = db.collection('users').get();
-users.then((snap) => {
-    snap.docs.forEach((doc) => {
-        console.log(doc);
-    })
-});
 
 //Affichage User courant + setName Accueil Header
 var nameUser;

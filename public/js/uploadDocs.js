@@ -1,25 +1,47 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyDHt321Q9fjJEkTdTt8D7FKLArPLTkrrys",
-    authDomain: "persevere-9b1cd.firebaseapp.com",
-    databaseURL: "",
-    projectId: "persevere-9b1cd",
-    storageBucket: "persevere-9b1cd.appspot.com",
-    messagingSenderId: "1094027429774",
-    appId: "1:1094027429774:web:a44c5364dc15611afd06df",
-    measurementId: "G-KERQPT5Q7X"
-  };
+const db = firebase.firestore();
 
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
-
-firebase.auth().onAuthStateChanged((user) => {
-    if (!user) {
-        // if the users are not signed in, we redirect them to the signin form
-        window.location.href = './index.html';
+//Affichage User courant + setName Accueil Header
+var nameUser;
+firebase.auth().onAuthStateChanged((user) => 
+{
+    if (user) {
+      console.log(user)
     }
+    var docRef = db.collection("users").doc(user.uid);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            var data = doc.data();
+            nameUser = data.name;
+            document.getElementById("username").innerHTML = nameUser;
+            //console.log("nameUSER : "+nameUser);
+            
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+      });
 });
 
+//Liste
+//GetAllUsers
+const users = db.collection('users').get();
+users.then((snap) => {
+    snap.docs.forEach((doc) => {
+        //console.log(doc);
+        var data = doc.data();
+        var allUsersName = data.password;
+        //console.log(allUsersName);
+        document.getElementById("liste").innerHTML += `
+        <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">${allUsersName}</a>
+        </li>`;
+    })
+});
 
+//Logout
 const logout = document.getElementById('logout');
 logout.addEventListener('click', () => {
     firebase.auth().signOut();
