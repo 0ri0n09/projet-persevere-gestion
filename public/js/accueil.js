@@ -9,7 +9,7 @@ users.then((snap) => {
     })
 });
 
-//Affichage User courant + setName Accueil
+//Affichage User courant + setName Accueil Header
 var nameUser;
 firebase.auth().onAuthStateChanged((user) => 
 {
