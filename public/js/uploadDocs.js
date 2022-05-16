@@ -32,7 +32,7 @@ users.then((snap) => {
     snap.docs.forEach((doc) => {
         //console.log(doc);
         var data = doc.data();
-        var allUsersName = data.password;
+        var allUsersName = data.name;
         //console.log(allUsersName);
         document.getElementById("liste").innerHTML += `
         <li>
