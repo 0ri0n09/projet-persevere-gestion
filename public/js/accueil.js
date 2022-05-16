@@ -9,6 +9,7 @@ users.then((snap) => {
     })
 });
 
+//Affichage User courant + setName Accueil
 var nameUser;
 firebase.auth().onAuthStateChanged((user) => 
 {
@@ -19,11 +20,10 @@ firebase.auth().onAuthStateChanged((user) =>
     docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
-
             var data = doc.data();
             nameUser = data.name;
             document.getElementById("username").innerHTML = nameUser;
-            console.log("nameUSER : "+nameUser);
+            //console.log("nameUSER : "+nameUser);
             
         } else {
             // doc.data() will be undefined in this case
@@ -34,6 +34,7 @@ firebase.auth().onAuthStateChanged((user) =>
       });
 });
 
+//Logout
 const logout = document.getElementById('logout');
 logout.addEventListener('click', () => {
     firebase.auth().signOut();
