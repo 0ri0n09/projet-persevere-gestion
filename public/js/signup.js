@@ -23,6 +23,11 @@ signUpBtn.addEventListener('click', () => {
             const password = document.getElementById('password');
             const name = document.getElementById('name');
 
+            if(name == null || name == "" || name == " ")
+            {
+                name = "Sans nom";
+            }
+
             //console.log(email, password);
             console.log(name.value)
             firebase.auth().createUserWithEmailAndPassword(email.value, password.value)

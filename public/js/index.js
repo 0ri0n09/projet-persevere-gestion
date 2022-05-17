@@ -13,6 +13,7 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 const db = firebase.firestore();
+
 const loginBtn = document.getElementById('login');
 
 loginBtn.addEventListener('click', () => {
