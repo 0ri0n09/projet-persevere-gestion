@@ -12,9 +12,15 @@ firebase.auth().onAuthStateChanged((user) =>
         if (doc.exists) {
             console.log("Document data:", doc.data());
             var data = doc.data();
+            var role = data.role;
             nameUser = data.name;
             document.getElementById("username").innerHTML = nameUser;
             //console.log("nameUSER : "+nameUser);
+            
+            //Si user est un "admin"
+            if(role == "admin"){
+                window.location.href = './accueil_admin.html';
+            }
             
         } else {
             // doc.data() will be undefined in this case

@@ -5,7 +5,7 @@ var nameUser;
 firebase.auth().onAuthStateChanged((user) => 
 {
     if (user) {
-      console.log(user)
+      //console.log(user)
     }
     var docRef = db.collection("users").doc(user.uid);
     docRef.get().then((doc) => {
@@ -25,21 +25,58 @@ firebase.auth().onAuthStateChanged((user) =>
       });
 });
 
-//Liste
-//GetAllUsers
+//Remplissage liste des Users
 const users = db.collection('users').get();
 users.then((snap) => {
     snap.docs.forEach((doc) => {
         //console.log(doc);
         var data = doc.data();
-        var allUsersName = data.name;
-        //console.log(allUsersName);
+        var name = data.name;
+        var id = data.id;
+        //console.log(id);
+        //console.log(name);
         document.getElementById("liste").innerHTML += `
-        <li>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">${allUsersName}</a>
-        </li>`;
+            <option value="${id}">${name}</option>
+        `;
     })
 });
+
+//Upload d'un fichier
+const uploadBtn = document.getElementById('uploadBtn');
+
+uploadBtn.addEventListener('click', () => {
+    const ref = firebase.storage().ref();
+    const file = document.querySelector('#file').files[0];
+    const name = (+new Date()) + '-' + file.name;
+    var select = document.getElementById('liste');
+    var titleAdd = document.getElementById('title').value;
+    var idUser = select.options[select.selectedIndex].value;
+    const metadata = {
+        contentType: file.type
+    };
+
+    if(idUser != "Sélectionnez un utilisateur"){
+        const task = ref.child(name).put(file, metadata);
+        task
+        .then(snapshot => snapshot.ref.getDownloadURL())
+        .then((url) => {
+            db.collection("documents").add({
+                downloadURL: url,
+                id_user: idUser,
+                title: titleAdd,
+            })
+            .then(() => {
+                alert("Le document à été télécharger !\n"+url);
+            })
+            .catch((error) => {
+                alert("Error adding document:", error);
+            });
+        })
+        .catch(console.error);
+    }
+    else{alert("Veuillez sélectionner un utilisateur et entrer un titre pour le document");}
+});
+
 
 //Logout
 const logout = document.getElementById('logout');
@@ -47,3 +84,5 @@ logout.addEventListener('click', () => {
     firebase.auth().signOut();
     window.location.href = './index.html';
 });
+
+
