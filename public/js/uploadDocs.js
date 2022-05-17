@@ -56,6 +56,10 @@ uploadBtn.addEventListener('click', () => {
     };
 
     if(idUser != "Sélectionnez un utilisateur"){
+        if(titleAdd == null || titleAdd == "")
+        {
+            titleAdd = "Document sans titre";
+        }
         const task = ref.child(name).put(file, metadata);
         task
         .then(snapshot => snapshot.ref.getDownloadURL())
@@ -74,7 +78,7 @@ uploadBtn.addEventListener('click', () => {
         })
         .catch(console.error);
     }
-    else{alert("Veuillez sélectionner un utilisateur et entrer un titre pour le document");}
+    else{alert("Veuillez sélectionner un utilisateur, un fichier, et entrez un titre pour le document");}
 });
 
 
