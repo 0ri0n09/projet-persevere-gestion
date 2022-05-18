@@ -6,7 +6,6 @@ firebase.auth().onAuthStateChanged((user) =>
 {
     if (user) {
       //console.log(user)
-    }
     var docRef = db.collection("users").doc(user.uid);
     docRef.get().then((doc) => {
         if (doc.exists) {
@@ -20,12 +19,13 @@ firebase.auth().onAuthStateChanged((user) =>
             // doc.data() will be undefined in this case
             console.log("No such document!");
         }
-    }).catch((error) => {
+        }).catch((error) => {
         console.log("Error getting document:", error);
-      });
+    });
+    }
 });
 
-//Remplissage liste des Users
+//Remplissage liste des Users bouton Upload
 const users = db.collection('users').get();
 users.then((snap) => {
     snap.docs.forEach((doc) => {
@@ -43,7 +43,6 @@ users.then((snap) => {
 
 //Upload d'un fichier
 const uploadBtn = document.getElementById('uploadBtn');
-
 uploadBtn.addEventListener('click', () => {
     const ref = firebase.storage().ref();
     const file = document.querySelector('#file').files[0];
@@ -70,7 +69,8 @@ uploadBtn.addEventListener('click', () => {
                 title: titleAdd,
             })
             .then(() => {
-                alert("Le document à été télécharger !\n"+url);
+                alert("Le document à été téléchargé !\n\n"+url);
+                location.reload();
             })
             .catch((error) => {
                 alert("Error adding document:", error);
@@ -81,6 +81,79 @@ uploadBtn.addEventListener('click', () => {
     else{alert("Veuillez sélectionner un utilisateur, un fichier, et entrez un titre pour le document");}
 });
 
+//Remplissage liste des documents
+const liste = document.getElementById('liste');
+const listeDel = document.getElementById("listeDel")
+var noDoc = false;
+liste.addEventListener('change', () => {
+    removeOptions(listeDel);
+    const documents = db.collection('documents').get();
+    documents.then((snap) => {
+        snap.docs.forEach((doc) => {
+            //console.log(doc);
+            var data = doc.data();
+            var title = data.title;
+            var idDoc = data.id_user;
+
+            var select = document.getElementById('liste');
+            var idUser = select.options[select.selectedIndex].value;
+            //console.log("idDOC :" + idDoc);
+            //console.log("idUSER :" + idUser);
+            
+            if(idUser == idDoc){
+                noDoc = false
+                listeDel.innerHTML += `
+                    <option value="${idDoc}">${title}</option>
+                `;
+            }else{noDoc = true;}
+        })
+    });
+});
+
+//Fonction remove 
+function removeOptions(selectElement) {
+        if(noDoc){
+            listeDel.innerHTML += `
+                <option value="none">Aucun document disponible pour cet utilisateur</option>
+            `;
+        }
+    var i, L = selectElement.options.length - 1;
+    for(i = L; i >= 0; i--) {
+       selectElement.remove(i);
+    }
+ }
+
+//Supression d'un fichier
+const dltBtn = document.getElementById('dltBtn');
+dltBtn.addEventListener('click', () => {
+    var docIdSelected = listeDel.options[listeDel.selectedIndex].value;
+    var docTitleSelected = listeDel.options[listeDel.selectedIndex].text;
+    console.log("DOC ID_SELECTED :" + docIdSelected);
+    console.log("DOC TITLE_SELECTED :" + docTitleSelected);
+
+    const documents = db.collection('documents').get();
+    documents.then((snap) => {
+        snap.docs.forEach((doc) => {
+            //console.log(doc);
+            var data = doc.data();
+            var title = data.title;
+            var id_user = data.id_user;
+            var id = doc.id;
+            //console.log("id_USER " + id_user);
+            //console.log("ID : " + id);
+    
+            if(title == docTitleSelected && id_user == docIdSelected)
+            {
+                db.collection("documents").doc(id).delete().then(() => {
+                    alert("Le document à bien été supprimé");
+                    location.reload();
+                }).catch((error) => {
+                    alert.error("Error removing document: ", error);
+                });
+            }
+        });
+    });
+});
 
 //Logout
 const logout = document.getElementById('logout');
