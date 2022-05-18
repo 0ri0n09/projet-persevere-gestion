@@ -5,7 +5,7 @@ var nameUser;
 firebase.auth().onAuthStateChanged((user) => 
 {
     if (user) {
-      //console.log(user)
+      //console.log(user.uid);
     }
     var docRef = db.collection("users").doc(user.uid);
     docRef.get().then((doc) => {

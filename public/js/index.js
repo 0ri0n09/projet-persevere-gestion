@@ -14,14 +14,15 @@ firebase.analytics();
 
 const db = firebase.firestore();
 
-const loginBtn = document.getElementById('login');
+const email = document.getElementById('email');
+const password = document.getElementById('password');
 
+const loginBtn = document.getElementById('login');
 loginBtn.addEventListener('click', () => {
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+    /*firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
         .then(() => {
             const email = document.getElementById('email');
             const password = document.getElementById('password');
-            console.log(email, password);
             firebase.auth().signInWithEmailAndPassword(email.value, password.value)
                 .then((userCredential) => {
                     const userUID = userCredential.user.uid;
@@ -40,5 +41,31 @@ loginBtn.addEventListener('click', () => {
         })
         .catch((error) => {
             console.error("Cannot signup:", error.code, error.message);
-        });
+        });*/
+
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+            .then(() => {
+                
+                firebase.auth().signInWithEmailAndPassword(email.value, password.value)
+                    .then((userCredential) => {
+                        const userUID = userCredential.user.uid;
+                        window.location.href = './accueil.html';
+                        //console.log(userUID);
+                    })
+                    .catch((error) => {
+                        console.error("Cannot signup:", error.code, error.message);
+                        console.error("Email et/ou Mot de passe invalide", error.code, error.message);
+
+                        document.getElementById("error").innerHTML=`
+                        <strong style="color:#FF0000">
+                            Email et/ou mot de passe non valide(s) !
+                        </strong>`;
+                    });
+            })
+            .catch((error) => {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+            });
+
 })
