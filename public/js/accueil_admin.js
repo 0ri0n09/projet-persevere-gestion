@@ -18,10 +18,14 @@ firebase.auth().onAuthStateChanged((user) =>
             //console.log("nameUSER : "+nameUser);
             
             //Si user est un "admin"
-            if(role == "admin"){
-                window.location.href = './accueil_admin.html';
+            if(role == "user"){
+                window.location.href = './accueil.html';
             }
-            
+
+            if(role == "pro"){
+                window.location.href = './accueil_pro.html';
+            }
+
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");

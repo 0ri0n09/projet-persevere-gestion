@@ -1,6 +1,7 @@
 const db = firebase.firestore();
 
 //Affichage User courant + setName Accueil Header
+//Affichage User courant + setName Accueil Header
 var nameUser;
 firebase.auth().onAuthStateChanged((user) => 
 {
