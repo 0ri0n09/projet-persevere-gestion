@@ -113,6 +113,45 @@ function makePwd(length) {
    return result;
 }
 
+//Remplissage liste des Users delete
+const users = db.collection('users').get();
+users.then((snap) => {
+    snap.docs.forEach((doc) => {
+        //console.log(doc);
+        var data = doc.data();
+        var name = data.name;
+        var id = data.id;
+        //console.log(id);
+        //console.log(name);
+        document.getElementById("listeU").innerHTML += `
+            <option value="${id}">${name}</option>
+        `;
+    })
+});
+
+//Suppression d'un user
+const deleteU = document.getElementById('deleteU');
+deleteU.addEventListener('click', () => {
+    var idUser = listeU.options[listeU.selectedIndex].value;
+
+    //Suppresion de la base de donnée
+    db.collection("users").doc(idUser).delete().then(() => {
+        alert("L'utilisateur' à bien été supprimé");
+    }).catch((error) => {
+        alert.error("Error removing document: ", error);
+    });
+
+    //Suppression de l'authentification
+    secondaryApp.auth().deleteUser(idUser)
+    .then(() => {
+        alert("L'utilisateur à bien été supprimé");
+        location.reload();
+      })
+      .catch((error) => {
+        console.log('Error deleting user:', error);
+      });
+});
+            
 //Déconnexion
 const logout = document.getElementById('logout');
 logout.addEventListener('click', () => {
