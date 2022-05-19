@@ -50,7 +50,7 @@ firebase.auth().onAuthStateChanged((user) =>
       });
 });
 
-//Bouton Validation pour ajouter un utilisateur
+//Ajouter un utilisateur
 const validateUser = document.getElementById('validateUser');
 validateUser.addEventListener('click', () => {
 
@@ -87,22 +87,25 @@ validateUser.addEventListener('click', () => {
                 //Envoie de la réinitialisation du mot de passe à l'email du user
                 secondaryApp.auth().sendPasswordResetEmail(email.value)
                 .then(() => {
-                    alert("L'email pour la création du mot de passe à été envoyé !");
+                    alert("Utilisateur a été ajouté | L'email pour la création du mot de passe à été envoyé !");
                     email.value = "";
                     name.value = "";
                     phone_number.value = "";
                     adresse.value = "";
                     code_postal.value = "";
+                    location.reload();
                 })
                 .catch(function(error) {
                     alert(error);
                 });
                 secondaryApp.auth().signOut();
             })
+    }).catch(function(error) {
+        alert("Veuillez entrer un email au format valide");
     });
 });
 
-//Fonction pour générer un mot de passe aléatoire
+//Générer un mot de passe aléatoire
 function makePwd(length) {
     var result           = '';
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -137,21 +140,102 @@ deleteU.addEventListener('click', () => {
     //Suppresion de la base de donnée
     db.collection("users").doc(idUser).delete().then(() => {
         alert("L'utilisateur' à bien été supprimé");
+        location.reload();
     }).catch((error) => {
         alert.error("Error removing document: ", error);
     });
 
     //Suppression de l'authentification
-    secondaryApp.auth().deleteUser(idUser)
-    .then(() => {
-        alert("L'utilisateur à bien été supprimé");
-        location.reload();
-      })
-      .catch((error) => {
-        console.log('Error deleting user:', error);
-      });
+    // firebase.getAuth()
+    //     .deleteUser(idUser)
+    //     .then(() => {
+    //         console.log('Successfully deleted user');
+    //     })
+    //     .catch((error) => {
+    //         console.log('Error deleting user:', error);
+    //     });
 });
+
+//Remplissage liste des Users Modifier
+const users2 = db.collection('users').get();
+users2.then((snap) => {
+    snap.docs.forEach((doc) => {
+        //console.log(doc);
+        var data = doc.data();
+        var name = data.name;
+        var id = data.id;
+        //console.log(id);
+        //console.log(name);
+        document.getElementById("listeUsersModifier").innerHTML += `
+            <option value="${id}">${name}</option>
+        `;
+    })
+});
+
+//Modification du mot de passe
+const modifierPassword = document.getElementById('modifierPassword');
+modifierPassword.addEventListener('click', () => {
+
+    var idUser = listeUsersModifier.options[listeUsersModifier.selectedIndex].value;
+
+    users2.then((snap) => {
+        snap.docs.forEach((doc) => {
+            var data = doc.data();
+            var email = data.email;
+            var id = data.id;
+            if(idUser == id)
+            {
+                secondaryApp.auth().sendPasswordResetEmail(email)
+                .then(() => {
+                    alert("L'email pour la réinitialisation du mot de passe à été envoyé !");
+                })
+                .catch(function(error) {
+                    alert(error);
+                });
+                secondaryApp.auth().signOut();
+            }
+        })
+    });
+});
+       
+//Modification des informations
+var idUserModifier
+const modifierU = document.getElementById('modifierU');
+const listeUsersModifier = document.getElementById('listeUsersModifier');
+
+listeUsersModifier.addEventListener('change', () => {
+    idUserModifier = listeUsersModifier.options[listeUsersModifier.selectedIndex].value;
+
+    var docRef = db.collection("users").doc(idUserModifier);
+    docRef.get().then((doc) => {
+        if (doc.exists) 
+        {
+            var data = doc.data();
+            var name = data.name;
+            var phone_number = data.phone_number;
+            var adresse = data.adresse;
+            var ville = data.ville;
+            var code_postal = data.code_postal;
+
+            document.getElementById('nameUserModifier').value = name;
+            document.getElementById('phone_numberUserModifier').value = phone_number;
+            document.getElementById('adresseUserModifier').value = adresse;
+            document.getElementById('villeUserModifier').value = ville;
+            document.getElementById('postalUserModifier').value = code_postal;
+            document.forms[0].submit();
             
+        } else {
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+});
+
+modifierU.addEventListener('click', () => {
+
+});
+
 //Déconnexion
 const logout = document.getElementById('logout');
 logout.addEventListener('click', () => {
