@@ -13,7 +13,7 @@ const config = {
 
 var secondaryApp = firebase.initializeApp(config, "Secondary");
 
-//Affichage User courant + setName Accueil Header
+//Affichage User courant et affichage du nom dans le header
 var nameUser;
 firebase.auth().onAuthStateChanged((user) => 
 {
@@ -29,11 +29,16 @@ firebase.auth().onAuthStateChanged((user) =>
             var role = data.role;
             nameUser = data.name;
             document.getElementById("username").innerHTML = nameUser;
-            console.log("nameUSER : "+nameUser);
+            //console.log("nameUSER : "+nameUser);
             
             //Si user est un "user"
             if(role == "user"){
                 window.location.href = './accueil.html';
+            }
+
+            //Si user est un "pro"
+            if(role == "user"){
+                window.location.href = './accueil_pro.html';
             }
             
         } else {
@@ -49,30 +54,45 @@ firebase.auth().onAuthStateChanged((user) =>
 const validateUser = document.getElementById('validateUser');
 validateUser.addEventListener('click', () => {
 
+    //Récupération des inputs
     const email = document.getElementById('emailU');
     const name = document.getElementById('nameU');
     const phone_number = document.getElementById('phone_numberU');
-    const date_inscription = document.getElementById('date_inscriptionU');
+    const adresse = document.getElementById('adresseU');
+    const code_postal = document.getElementById('postalU');
+    const ville = document.getElementById('villeU');
+    const date_inscription = new Date().toLocaleDateString();
     const role = "user";
     const password = makePwd(50);
 
+    //Ajout du user à la base de données (Authentification)
     secondaryApp.auth().createUserWithEmailAndPassword(email.value, password)
         .then((userCredential) => {
             const userUID = userCredential.user.uid;
-
+            
+            //Ajout du user à la base de données
             db.collection("users").doc(userUID).set({
                 email: email.value,
                 id: userUID,
                 name: name.value,
                 role: role,
                 phone_number: phone_number.value,
-                date_inscription: date_inscription.value,
+                date_inscription: date_inscription,
+                adresse: adresse.value,
+                code_postal: code_postal.value,
+                ville: ville.value,
             })
             .then(() => {
                 console.log("Document written with ID:", userUID);
+                //Envoie de la réinitialisation du mot de passe à l'email du user
                 secondaryApp.auth().sendPasswordResetEmail(email.value)
                 .then(() => {
                     alert("L'email pour la création du mot de passe à été envoyé !");
+                    email.value = "";
+                    name.value = "";
+                    phone_number.value = "";
+                    adresse.value = "";
+                    code_postal.value = "";
                 })
                 .catch(function(error) {
                     alert(error);
