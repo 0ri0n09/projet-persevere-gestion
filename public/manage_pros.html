@@ -89,10 +89,8 @@
 <div id="main" class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
 
     <div class="bg-gray-800 pt-3">
-        
-        <div class="rounded-tl-3xl bg-gradient-to-r from-green-600 to-gray-800 p-4 shadow text-2xl text-white">
-            <h1 class="font-bold pl-2">Gérer les utilisateurs</h1>
-            
+        <div class="rounded-tl-3xl bg-gradient-to-r from-orange-600 to-gray-800 p-4 shadow text-2xl text-white">
+            <h1 class="font-bold pl-2">Gérer les professionnels</h1>
         </div>
     </div>
 
@@ -106,7 +104,7 @@
     </div>
 
     <div class="flex flex-wrap divide-x-8">
-        
+            
         <!--Ajouter un utilisateur-->
         <div class="w-full md:w-1/2 xl:w-1/3 p-4 rounded focus:ring transform duration-300">
             <div class="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5">
@@ -115,7 +113,7 @@
                         <div class="rounded-full p-5 bg-green-600"><i class="fa fa-user-plus fa-2x fa-inverse"></i></div>
                     </div>
                     <div class="flex-1 text-right md:text-center">
-                    <p class="font-bold text-xl">Ajouter un utilisateur</p>
+                    <p class="font-bold text-xl">Ajouter un professionnel</p>
                     </div>
                 </div>
             </div>
@@ -137,7 +135,7 @@
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                     Email
                     </label>
-                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="emailU" type="email" placeholder="user@user.fr">
+                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="emailU" type="email" placeholder="pro@pro.fr">
                 </div>
             </div>
 
@@ -174,13 +172,32 @@
                 </label>
                 <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="postalU" type="number" min="0" max="9" placeholder="12345">
             </div>
+
+            <br>
+            <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full px-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                    Métier
+                </label>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="jobPro" type="text" placeholder="Eleveur équin, vétérinaire, entraîneur ...">
+                </div>
+            </div>
+
+            <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full px-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                    Description
+                </label>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="descriptionPro" type="text" placeholder="Description du métier, domaine, spécialité ...">
+                </div>
+            </div>
             <!--Formulaire pour ajouter un User-->
 
                 <br>
                 <!--Bouton Ajouter l'utilisateur-->
                 <div class="flex fel-wrap justify-center">
                     <button id="validateUser" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ease-in-out">
-                        Ajouter l'utilisateur
+                        Ajouter le professionnel
                     </button>
                 </div>
                 <!--/Bouton Ajouter l'utilisateur-->
@@ -195,7 +212,7 @@
                         <div class="rounded-full p-5 bg-orange-600"><i class="fa fa-address-card fa-2x fa-inverse"></i></div>
                     </div>
                     <div class="flex-1 text-right md:text-center">
-                    <p class="font-bold text-xl">Modifier un utilisateur</p>
+                    <p class="font-bold text-xl">Modifier un professionnel</p>
                     </div>
                 </div>
             </div>
@@ -219,7 +236,7 @@
                     ease-in-out
                     m-0
                     focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
-                      <option selected>Sélectionnez un utilisateur</option>
+                      <option selected>Sélectionnez un professionnel</option>
                   </select>
                 </div>
             </div>
@@ -270,6 +287,25 @@
             </div>
 
             <br>
+            <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full px-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                    Métier
+                </label>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="jobProModifier" type="text" placeholder="">
+                </div>
+            </div>
+
+            <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full px-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                    Description
+                </label>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="descriptionProModifier" type="text" placeholder="">
+                </div>
+            </div>
+            
+            <br>
             <div class="flex fel-wrap justify-center">
                 <button id="modifierU" class="bg-orange-500 hover:bg-orange-400 text-white font-bold py-2 px-4 border-b-4 border-orange-700 hover:border-orange-500 rounded ease-in-out">
                     Modifier les informations
@@ -294,7 +330,7 @@
                         <div class="rounded-full p-5 bg-red-600"><i class="fa fa-user-minus fa-2x fa-inverse"></i></div>
                     </div>
                     <div class="flex-1 text-right md:text-center">
-                    <p class="font-bold text-xl">Supprimer un utilisateur</p>
+                    <p class="font-bold text-xl">Supprimer un professionnel</p>
                     </div>
                 </div>
             </div>
@@ -318,7 +354,7 @@
                     ease-in-out
                     m-0
                     focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
-                      <option selected>Sélectionnez un utilisateur</option>
+                      <option selected>Sélectionnez un professionnel</option>
                   </select>
                 </div>
             </div>
@@ -327,7 +363,7 @@
             <!--Bouton Supprimer l'utilisateur-->
             <div class="flex fel-wrap justify-center">
                 <button id="deleteU" class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded ease-in-out">
-                    Supprimer l'utilisateur
+                    Supprimer le professionnel
                 </button>
             </div>
             <!--/Bouton Supprimer l'utilisateur-->
@@ -338,6 +374,6 @@
 
 </main>
 <script src="https://unpkg.com/flowbite@1.4.5/dist/flowbite.js"></script>
-<script src="js/manage_users.js"></script>
+<script src="js/manage_pros.js"></script>
 </body>
 </html>

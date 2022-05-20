@@ -50,7 +50,7 @@ firebase.auth().onAuthStateChanged((user) =>
       });
 });
 
-//Ajouter un utilisateur
+//Ajouter un Administrateur
 const validateUser = document.getElementById('validateUser');
 validateUser.addEventListener('click', () => {
 
@@ -58,11 +58,8 @@ validateUser.addEventListener('click', () => {
     const email = document.getElementById('emailU');
     const name = document.getElementById('nameU');
     const phone_number = document.getElementById('phone_numberU');
-    const adresse = document.getElementById('adresseU');
-    const code_postal = document.getElementById('postalU');
-    const ville = document.getElementById('villeU');
     const date_inscription = new Date().toLocaleDateString();
-    const role = "user";
+    const role = "admin";
     const password = makePwd(50);
 
     //Ajout du user à la base de données (Authentification)
@@ -78,9 +75,6 @@ validateUser.addEventListener('click', () => {
                 role: role,
                 phone_number: phone_number.value,
                 date_inscription: date_inscription,
-                adresse: adresse.value,
-                code_postal: code_postal.value,
-                ville: ville.value,
             })
             .then(() => {
                 //console.log("Document written with ID:", userUID);
@@ -92,8 +86,6 @@ validateUser.addEventListener('click', () => {
                     email.value = "";
                     name.value = "";
                     phone_number.value = "";
-                    adresse.value = "";
-                    code_postal.value = "";
                     location.reload();
                 })
                 .catch(function(error) {
@@ -106,7 +98,7 @@ validateUser.addEventListener('click', () => {
     });
 });
 
-//Remplissage liste des Users delete
+//Remplissage liste des Administrateurs delete
 const users = db.collection('users').get();
 users.then((snap) => {
     snap.docs.forEach((doc) => {
@@ -116,7 +108,7 @@ users.then((snap) => {
         var id = data.id;
         var role = data.role;
   
-        if(role == "user"){
+        if(role == "admin"){
             document.getElementById("listeU").innerHTML += `
                 <option value="${id}">${name}</option>
             `;
@@ -131,7 +123,7 @@ deleteU.addEventListener('click', () => {
 
     //Suppresion de la base de donnée
     db.collection("users").doc(idUser).delete().then(() => {
-        alert("L'utilisateur à bien été supprimé");
+        alert("L'administrateur à bien été supprimé");
         location.reload();
     }).catch((error) => {
         alert.error("Error removing document: ", error);
@@ -148,7 +140,7 @@ deleteU.addEventListener('click', () => {
     //     });
 });
 
-//Remplissage liste des Users Modifier
+//Remplissage liste des Administrateurs Modifier
 const users2 = db.collection('users').get();
 users2.then((snap) => {
     snap.docs.forEach((doc) => {
@@ -160,7 +152,7 @@ users2.then((snap) => {
         //console.log(id);
         //console.log(name);
 
-        if(role == "user"){
+        if(role == "admin"){
             document.getElementById("listeUsersModifier").innerHTML += `
                 <option value="${id}">${name}</option>
             `;
@@ -210,15 +202,9 @@ listeUsersModifier.addEventListener('change', () => {
             var data = doc.data();
             var name = data.name;
             var phone_number = data.phone_number;
-            var adresse = data.adresse;
-            var ville = data.ville;
-            var code_postal = data.code_postal;
 
             document.getElementById('nameUserModifier').value = name;
             document.getElementById('phone_numberUserModifier').value = phone_number;
-            document.getElementById('adresseUserModifier').value = adresse;
-            document.getElementById('villeUserModifier').value = ville;
-            document.getElementById('postalUserModifier').value = code_postal;
             document.forms[0].submit();
             
         } else {
@@ -234,20 +220,14 @@ modifierU.addEventListener('click', () => {
 
     idUserModifier = listeUsersModifier.options[listeUsersModifier.selectedIndex].value;
     var name = document.getElementById('nameUserModifier').value;
-    var phone_number = document.getElementById('phone_numberUserModifier').value;
-    var adresse = document.getElementById('adresseUserModifier').value;
-    var ville = document.getElementById('villeUserModifier').value;
-    var code_postal = document.getElementById('postalUserModifier').value;
+    //var phone_numberA = document.getElementById('phone_numberUserModifier').value;
 
     db.collection("users").doc(idUserModifier).update({
         name: name,
-        phone_number: phone_number,
-        adresse: adresse,
-        ville: ville,
-        code_postal: code_postal,
+        phone_number: "1234",
     })
     .then(() => {
-        alert("Les informations de l'utilisateur ont bien été modifiées !");
+        alert("Les informations de l'administrateur ont bien été modifiées !");
         location.reload();
     })
     .catch(function(error) {

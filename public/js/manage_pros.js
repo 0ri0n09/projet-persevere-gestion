@@ -50,7 +50,7 @@ firebase.auth().onAuthStateChanged((user) =>
       });
 });
 
-//Ajouter un utilisateur
+//Ajouter un professionnel
 const validateUser = document.getElementById('validateUser');
 validateUser.addEventListener('click', () => {
 
@@ -61,16 +61,18 @@ validateUser.addEventListener('click', () => {
     const adresse = document.getElementById('adresseU');
     const code_postal = document.getElementById('postalU');
     const ville = document.getElementById('villeU');
+    const job = document.getElementById('jobPro');
+    const descriptionPro = document.getElementById('descriptionPro');
     const date_inscription = new Date().toLocaleDateString();
-    const role = "user";
+    const role = "pro";
     const password = makePwd(50);
 
-    //Ajout du user à la base de données (Authentification)
+    //Ajout du pro à la base de données (Authentification)
     secondaryApp.auth().createUserWithEmailAndPassword(email.value, password)
         .then((userCredential) => {
             const userUID = userCredential.user.uid;
             
-            //Ajout du user à la base de données
+            //Ajout du pro à la base de données
             db.collection("users").doc(userUID).set({
                 email: email.value,
                 id: userUID,
@@ -81,19 +83,23 @@ validateUser.addEventListener('click', () => {
                 adresse: adresse.value,
                 code_postal: code_postal.value,
                 ville: ville.value,
+                job : job.value,
+                descriptionPro: descriptionPro.value,
             })
             .then(() => {
                 //console.log("Document written with ID:", userUID);
                 
-                //Envoie de la réinitialisation du mot de passe à l'email du user
+                //Envoie de la réinitialisation du mot de passe à l'email du pro
                 secondaryApp.auth().sendPasswordResetEmail(email.value)
                 .then(() => {
-                    alert("Utilisateur a été ajouté | L'email pour la création du mot de passe à été envoyé !");
+                    alert("Le professionnel a été ajouté | L'email pour la création du mot de passe à été envoyé !");
                     email.value = "";
                     name.value = "";
                     phone_number.value = "";
                     adresse.value = "";
                     code_postal.value = "";
+                    job.value = "";
+                    descriptionPro.value = "";
                     location.reload();
                 })
                 .catch(function(error) {
@@ -102,11 +108,11 @@ validateUser.addEventListener('click', () => {
                 secondaryApp.auth().signOut();
             })
     }).catch(function(error) {
-        alert("Veuillez entrer un email au format valide");
+        alert("Adresse email invalide !");
     });
 });
 
-//Remplissage liste des Users delete
+//Remplissage liste des Pros delete
 const users = db.collection('users').get();
 users.then((snap) => {
     snap.docs.forEach((doc) => {
@@ -116,7 +122,7 @@ users.then((snap) => {
         var id = data.id;
         var role = data.role;
   
-        if(role == "user"){
+        if(role == "pro"){
             document.getElementById("listeU").innerHTML += `
                 <option value="${id}">${name}</option>
             `;
@@ -124,14 +130,14 @@ users.then((snap) => {
     })
 });
 
-//Suppression d'un user
+//Suppression d'un pro
 const deleteU = document.getElementById('deleteU');
 deleteU.addEventListener('click', () => {
     var idUser = listeU.options[listeU.selectedIndex].value;
 
     //Suppresion de la base de donnée
     db.collection("users").doc(idUser).delete().then(() => {
-        alert("L'utilisateur à bien été supprimé");
+        alert("Le professionnel à bien été supprimé");
         location.reload();
     }).catch((error) => {
         alert.error("Error removing document: ", error);
@@ -160,7 +166,7 @@ users2.then((snap) => {
         //console.log(id);
         //console.log(name);
 
-        if(role == "user"){
+        if(role == "pro"){
             document.getElementById("listeUsersModifier").innerHTML += `
                 <option value="${id}">${name}</option>
             `;
@@ -213,12 +219,16 @@ listeUsersModifier.addEventListener('change', () => {
             var adresse = data.adresse;
             var ville = data.ville;
             var code_postal = data.code_postal;
+            var job = data.job;
+            var descriptionPro = data.descriptionPro;
 
             document.getElementById('nameUserModifier').value = name;
             document.getElementById('phone_numberUserModifier').value = phone_number;
             document.getElementById('adresseUserModifier').value = adresse;
             document.getElementById('villeUserModifier').value = ville;
             document.getElementById('postalUserModifier').value = code_postal;
+            document.getElementById('jobProModifier').value = job;
+            document.getElementById('descriptionProModifier').value = descriptionPro;
             document.forms[0].submit();
             
         } else {
@@ -238,6 +248,8 @@ modifierU.addEventListener('click', () => {
     var adresse = document.getElementById('adresseUserModifier').value;
     var ville = document.getElementById('villeUserModifier').value;
     var code_postal = document.getElementById('postalUserModifier').value;
+    var job = document.getElementById('jobProModifier').value;
+    var descriptionPro = document.getElementById('descriptionProModifier').value;
 
     db.collection("users").doc(idUserModifier).update({
         name: name,
@@ -245,9 +257,11 @@ modifierU.addEventListener('click', () => {
         adresse: adresse,
         ville: ville,
         code_postal: code_postal,
+        job: job,
+        descriptionPro: descriptionPro,
     })
     .then(() => {
-        alert("Les informations de l'utilisateur ont bien été modifiées !");
+        alert("Les informations du professionnel ont bien été modifiées !");
         location.reload();
     })
     .catch(function(error) {
