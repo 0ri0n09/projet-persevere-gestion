@@ -19,7 +19,7 @@ resetPassword.addEventListener('click', () => {
         alert("L'email pour la réinitialisation de votre mot de passe à été envoyé !");
     })
     .catch(function(error) {
-        alert("Email non correct");
+        alert("Email non correct ou inconnu");
     });
     secondaryApp.auth().signOut();
 });

@@ -63,7 +63,7 @@ uploadBtn.addEventListener('click', () => {
     if(idUser != "Sélectionnez un utilisateur"){
         if(titleAdd == null || titleAdd == "")
         {
-            titleAdd = "Document sans titre";
+            titleAdd = name;
         }
         const task = ref.child(name).put(file, metadata);
         task

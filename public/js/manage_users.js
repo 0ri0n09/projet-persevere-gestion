@@ -83,7 +83,8 @@ validateUser.addEventListener('click', () => {
                 ville: ville.value,
             })
             .then(() => {
-                console.log("Document written with ID:", userUID);
+                //console.log("Document written with ID:", userUID);
+                
                 //Envoie de la réinitialisation du mot de passe à l'email du user
                 secondaryApp.auth().sendPasswordResetEmail(email.value)
                 .then(() => {
@@ -105,30 +106,21 @@ validateUser.addEventListener('click', () => {
     });
 });
 
-//Générer un mot de passe aléatoire
-function makePwd(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-   }
-   return result;
-}
-
 //Remplissage liste des Users delete
 const users = db.collection('users').get();
 users.then((snap) => {
     snap.docs.forEach((doc) => {
-        //console.log(doc);
+
         var data = doc.data();
         var name = data.name;
         var id = data.id;
-        //console.log(id);
-        //console.log(name);
-        document.getElementById("listeU").innerHTML += `
-            <option value="${id}">${name}</option>
-        `;
+        var role = data.role;
+  
+        if(role == "user"){
+            document.getElementById("listeU").innerHTML += `
+                <option value="${id}">${name}</option>
+            `;
+        }
     })
 });
 
@@ -139,7 +131,7 @@ deleteU.addEventListener('click', () => {
 
     //Suppresion de la base de donnée
     db.collection("users").doc(idUser).delete().then(() => {
-        alert("L'utilisateur' à bien été supprimé");
+        alert("L'utilisateur à bien été supprimé");
         location.reload();
     }).catch((error) => {
         alert.error("Error removing document: ", error);
@@ -164,11 +156,15 @@ users2.then((snap) => {
         var data = doc.data();
         var name = data.name;
         var id = data.id;
+        var role = data.role;
         //console.log(id);
         //console.log(name);
-        document.getElementById("listeUsersModifier").innerHTML += `
-            <option value="${id}">${name}</option>
-        `;
+
+        if(role == "user"){
+            document.getElementById("listeUsersModifier").innerHTML += `
+                <option value="${id}">${name}</option>
+            `;
+        }
     })
 });
 
@@ -199,10 +195,11 @@ modifierPassword.addEventListener('click', () => {
 });
        
 //Modification des informations
-var idUserModifier
+var idUserModifier;
 const modifierU = document.getElementById('modifierU');
 const listeUsersModifier = document.getElementById('listeUsersModifier');
 
+//Pré-remplissage des champs
 listeUsersModifier.addEventListener('change', () => {
     idUserModifier = listeUsersModifier.options[listeUsersModifier.selectedIndex].value;
 
@@ -232,9 +229,42 @@ listeUsersModifier.addEventListener('change', () => {
     });
 });
 
+//Update des informations
 modifierU.addEventListener('click', () => {
 
+    idUserModifier = listeUsersModifier.options[listeUsersModifier.selectedIndex].value;
+    var name = document.getElementById('nameUserModifier').value;
+    var phone_number = document.getElementById('phone_numberUserModifier').value;
+    var adresse = document.getElementById('adresseUserModifier').value;
+    var ville = document.getElementById('villeUserModifier').value;
+    var code_postal = document.getElementById('postalUserModifier').value;
+
+    db.collection("users").doc(idUserModifier).update({
+        name: name,
+        phone_number: phone_number,
+        adresse: adresse,
+        ville: ville,
+        code_postal: code_postal,
+    })
+    .then(() => {
+        alert("Les informations de l'utilisateur ont bien été modifier !");
+        location.reload();
+    })
+    .catch(function(error) {
+        alert(error);
+    });
 });
+
+//Générer un mot de passe aléatoire
+function makePwd(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
 
 //Déconnexion
 const logout = document.getElementById('logout');
