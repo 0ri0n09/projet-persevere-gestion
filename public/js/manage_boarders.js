@@ -139,9 +139,11 @@ usersModifierListe.addEventListener('click', () => {
     //Clean
     for (var i=0; i < boardersModifierListe.length; i++) {
         boardersModifierListe.remove(i);
-        boardersModifierListe.remove(selectedIndex);
+        boardersModifierListe.remove(0);
     }
     
+    boardersModifierListe.selectedIndex = 0;
+
     const boarders = db.collection('boarders').get();
     boarders.then((snap) => {
         snap.docs.forEach((doc) => {
@@ -150,8 +152,6 @@ usersModifierListe.addEventListener('click', () => {
             var name = data.name;
             var id_user = data.id_user;
             var id = data.id;
-
-            console.log("ID CHEVAL = " + id);
     
             if(id_user == idUserModifier){
                 document.getElementById("boardersModifierListe").innerHTML += `
@@ -162,94 +162,151 @@ usersModifierListe.addEventListener('click', () => {
     });
 });
 
-
 //Modification des informations
-var idUserModifier;
+var idBoardersModifier;
 const modifierU = document.getElementById('modifierU');
 const listeUsersModifier = document.getElementById('listeUsersModifier');
 
-//Pré-remplissage des champs
-// listeUsersModifier.addEventListener('change', () => {
-//     idUserModifier = listeUsersModifier.options[listeUsersModifier.selectedIndex].value;
+//Pré-remplissage des champs Modifier
+boardersModifierListe.addEventListener('click', () => {
+    idBoardersModifier = boardersModifierListe.options[boardersModifierListe.selectedIndex].value;
 
-//     var docRef = db.collection("users").doc(idUserModifier);
-//     docRef.get().then((doc) => {
-//         if (doc.exists) 
-//         {
-//             var data = doc.data();
-//             var name = data.name;
-//             var phone_number = data.phone_number;
-//             var adresse = data.adresse;
-//             var ville = data.ville;
-//             var code_postal = data.code_postal;
+    var docRef = db.collection("boarders").doc(idBoardersModifier);
+    docRef.get().then((doc) => {
+        if (doc.exists) 
+        {
+            var data = doc.data();
+            var birthdate = data.birthdate;
+            var board_price = data.board_price;
+            var entry_date = data.entry_date;
+            var gender = data.gender;
+            var name = data.name;
+            var options = data.options;
+            var race = data.race;
+            var weight = data.weight;
 
-//             document.getElementById('nameUserModifier').value = name;
-//             document.getElementById('phone_numberUserModifier').value = phone_number;
-//             document.getElementById('adresseUserModifier').value = adresse;
-//             document.getElementById('villeUserModifier').value = ville;
-//             document.getElementById('postalUserModifier').value = code_postal;
-//             document.forms[0].submit();
+            document.getElementById('birthdateM').value = birthdate;
+            document.getElementById('board_priceM').value = board_price;
+            document.getElementById('entry_dateM').value = entry_date;
+            document.getElementById('genderM').value = gender;
+            document.getElementById('nameM').value = name;
+            document.getElementById('optionsM').value = options;
+            document.getElementById('raceM').value = race;
+            document.getElementById('weightM').value = weight;
             
-//         } else {
-//             console.log("No such document!");
-//         }
-//     }).catch((error) => {
-//         console.log("Error getting document:", error);
-//     });
-// });
+        } else {
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+});
 
 //Update des informations
-modifierU.addEventListener('click', () => {
+modifierM.addEventListener('click', () => {
 
-    idUserModifier = listeUsersModifier.options[listeUsersModifier.selectedIndex].value;
-    var name = document.getElementById('nameUserModifier').value;
-    var phone_number = document.getElementById('phone_numberUserModifier').value;
-    var adresse = document.getElementById('adresseUserModifier').value;
-    var ville = document.getElementById('villeUserModifier').value;
-    var code_postal = document.getElementById('postalUserModifier').value;
+    var idBoarderM = boardersModifierListe.options[boardersModifierListe.selectedIndex].value;
+    console.log("ID BOARDR MODIF : " + idBoardersModifier);
 
-    db.collection("users").doc(idUserModifier).update({
+    var birthdate = document.getElementById('birthdateM').value;
+    var board_price = document.getElementById('board_priceM').value
+    var entry_date = document.getElementById('entry_dateM').value
+    var gender = document.getElementById('genderM').value
+    var name = document.getElementById('nameM').value
+    var options = document.getElementById('optionsM').value
+    var race = document.getElementById('raceM').value
+    var weight = document.getElementById('weightM').value
+
+    db.collection("boarders").doc(idBoarderM).update({
+        birthdate: birthdate,
+        board_price: board_price,
+        entry_date: entry_date,
+        gender: gender,
         name: name,
-        phone_number: phone_number,
-        adresse: adresse,
-        ville: ville,
-        code_postal: code_postal,
+        options: options,
+        race: race,
+        weight: weight,
     })
     .then(() => {
-        alert("Les informations de l'utilisateur ont bien été modifiées !");
+        alert("Les informations du pensionnaire ont bien été modifiées !");
+
+        birthdate.value = "";
+        board_price.value = "";
+        entry_date.value = "";
+        gender.value = "";
+        name.value = "";
+        options.value = "";
+        race.value = "";
+        weight.value = "";
+
         location.reload();
     })
     .catch(function(error) {
         alert(error);
     });
 });
+       
+//Remplissage liste des Users Delete
+const usersBoardersD = db.collection('users').get();
+usersBoardersD.then((snap) => {
+    snap.docs.forEach((doc) => {
+        var data = doc.data();
+        var name = data.name;
+        var id = data.id;
 
-//Modification du mot de passe
-const modifierPassword = document.getElementById('modifierPassword');
-modifierPassword.addEventListener('click', () => {
+        document.getElementById("listeUD").innerHTML += `
+            <option value="${id}">${name}</option>
+        `;
+    })
+});
 
-    var idUser = listeUsersModifier.options[listeUsersModifier.selectedIndex].value;
+//Remplissage liste des Boarders modifier selon le user selectionné
+const listeUD = document.getElementById('listeUD');
+listeUD.addEventListener('click', () => {
 
-    users2.then((snap) => {
+    var listeBoardersD = document.getElementById('listeBoardersD');
+    var idUserD = listeUD.options[listeUD.selectedIndex].value;
+
+    //Clean
+    for (var i=0; i < listeBoardersD.length; i++) {
+        listeBoardersD.remove(i);
+        listeBoardersD.remove(0);
+    }
+    
+    listeBoardersD.selectedIndex = 0;
+
+    const boarders = db.collection('boarders').get();
+    boarders.then((snap) => {
         snap.docs.forEach((doc) => {
+
             var data = doc.data();
-            var email = data.email;
+            var name = data.name;
+            var id_user = data.id_user;
             var id = data.id;
-            if(idUser == id)
-            {
-                secondaryApp.auth().sendPasswordResetEmail(email)
-                .then(() => {
-                    alert("L'email pour la réinitialisation du mot de passe à été envoyé !");
-                })
-                .catch(function(error) {
-                    alert(error);
-                });
-                secondaryApp.auth().signOut();
+    
+            if(id_user == idUserD){
+                document.getElementById("listeBoardersD").innerHTML += `
+                    <option value="${id}">${name}</option>
+                `;
             }
         })
     });
 });
-       
+
+//Suppression d'un Pensionnaire
+const deleteP = document.getElementById('deleteP');
+deleteP.addEventListener('click', () => {
+    var idBoarder = listeBoardersD.options[listeBoardersD.selectedIndex].value;
+
+    //Suppresion de la base de donnée
+    db.collection("boarders").doc(idBoarder).delete().then(() => {
+        alert("Le pensionnaire à bien été supprimé");
+        location.reload();
+    }).catch((error) => {
+        alert.error("Error removing document: ", error);
+    });
+});
+
 //Générer un mot de passe aléatoire
 function makePwd(length) {
     var result           = '';

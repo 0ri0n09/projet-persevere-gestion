@@ -136,16 +136,6 @@ deleteU.addEventListener('click', () => {
     }).catch((error) => {
         alert.error("Error removing document: ", error);
     });
-
-    //Suppression de l'authentification
-    // firebase.getAuth()
-    //     .deleteUser(idUser)
-    //     .then(() => {
-    //         console.log('Successfully deleted user');
-    //     })
-    //     .catch((error) => {
-    //         console.log('Error deleting user:', error);
-    //     });
 });
 
 //Remplissage liste des Users Modifier
