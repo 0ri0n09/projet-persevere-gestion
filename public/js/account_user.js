@@ -24,7 +24,7 @@ firebase.auth().onAuthStateChanged((user) =>
     var docRef = db.collection("users").doc(user.uid);
     docRef.get().then((doc) => {
         if (doc.exists) {
-            console.log("Document data:", doc.data());
+            //console.log("Document data:", doc.data());
             var data = doc.data();
             var role = data.role;
             nameUser = data.name;

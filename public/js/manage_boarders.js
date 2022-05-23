@@ -206,7 +206,6 @@ boardersModifierListe.addEventListener('click', () => {
 modifierM.addEventListener('click', () => {
 
     var idBoarderM = boardersModifierListe.options[boardersModifierListe.selectedIndex].value;
-    console.log("ID BOARDR MODIF : " + idBoardersModifier);
 
     var birthdate = document.getElementById('birthdateM').value;
     var board_price = document.getElementById('board_priceM').value
