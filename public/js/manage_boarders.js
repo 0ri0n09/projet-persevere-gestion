@@ -51,8 +51,8 @@ firebase.auth().onAuthStateChanged((user) =>
 });
 
 //Remplissage de la liste listeUsers
-const usersBoarders = db.collection('users').get();
-usersBoarders.then((snap) => {
+const users3 = db.collection('users').get();
+users3.then((snap) => {
     snap.docs.forEach((doc) => {
         //console.log(doc);
         var data = doc.data();
