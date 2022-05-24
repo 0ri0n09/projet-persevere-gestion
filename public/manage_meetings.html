@@ -18,6 +18,8 @@
     <!--Calendar-->
     <link rel="stylesheet" href="css/main.css">
     <script src="js/main.js"></script>
+    <!--DatePicker-->
+    <script src="https://unpkg.com/flowbite@1.4.6/dist/datepicker.js"></script>
 
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
@@ -91,7 +93,7 @@
         <div id="main" class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
             <div class="bg-gray-800 pt-3">
                 <div class="rounded-tl-3xl bg-gradient-to-r from-red-500 to-gray-800 p-4 shadow text-2xl text-white">
-                    <h1 class="font-bold pl-2">Gérer les rendez-vous</h1>
+                    <h1 class="font-bold pl-2">Gérer les activités</h1>
                 </div>
             </div>
 
@@ -104,6 +106,7 @@
                 </a>
             </div>
 
+            <br>
             <!--Liste des utilisateurs-->
             <div class="flex justify-center">
                 <div class="mb-3 xl:w-96">
@@ -153,12 +156,370 @@
             <!--/Liste des pensionnaires selon l'utilisateur sélectionné-->
 
             <br>
-            <div class="px-1.5 justify-center bg-gray-300">
+
+            <!--Calendar-->
+            <div class="px-1.5 justify-center bg-gray-200 w-full">
 
                 <div id='calendar'>
 
                 </div>
 
+            </div>
+            <!--/Calendar-->
+
+            <br>
+
+            <div class="flex flex-wrap divide-x-8">
+
+                <!--Ajouter un event-->
+                <div class="w-full md:w-1/2 xl:w-1/3 p-4 rounded focus:ring transform duration-300">
+                    <div class="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5">
+                        <div class="flex flex-row items-center">
+                            <div class="flex-shrink pr-4">
+                                <div class="rounded-full p-5 bg-green-600"><i class="fa fa-calendar-plus fa-2x fa-inverse"></i></div>
+                            </div>
+                            <div class="flex-1 text-right md:text-center">
+                                <p class="font-bold text-xl">Ajouter une activité au pensionnaire</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <!--DatePicker-->
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-center">
+                        Date de début :
+                    </label>
+                    <div class="flex justify-center">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"></div>
+                        <input id="dateAddDebut" datepicker datepicker-format="dd/mm/yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="(jj/mm/année)">
+                     </div>
+                    <!--/DatePicker-->
+
+                    <br>
+                    <!--DatePicker-->
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-center">
+                        Date de fin :
+                    </label>
+                    <div class="flex justify-center">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"></div>
+                        <input id="dateAddFin" datepicker datepicker-format="dd/mm/yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="(jj/mm/année)">
+                     </div>
+                    <!--/DatePicker-->
+
+                    <br>
+
+                    <!--TimePicker-->
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-center">
+                        Heure de début :
+                    </label>
+                    <div class="flex justify-center">
+                        <span class="mb-3 xl:w-96">
+                            <!--Heures-->
+                            <select id="heuresAddDebut" class="form-select appearance-none
+                            block
+                            w-full
+                            px-3
+                            py-1.5
+                            text-base
+                            font-normal
+                            text-gray-700
+                            bg-white bg-clip-padding bg-no-repeat
+                            border border-solid border-gray-300
+                            rounded
+                            transition
+                            ease-in-out
+                            m-0
+                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                <option selected>Heures</option>
+                                <option value="00">00 h</option>
+                                <option value="01">01 h</option>
+                                <option value="02">02 h</option>
+                                <option value="03">03 h</option>
+                                <option value="04">04 h</option>
+                                <option value="05">05 h</option>
+                                <option value="06">06 h</option>
+                                <option value="07">07 h</option>
+                                <option value="08">08 h</option>
+                                <option value="09">09 h</option>
+                                <option value="10">10 h</option>
+                                <option value="11">11 h</option>
+                                <option value="12">12 h</option>
+                                <option value="13">13 h</option>
+                                <option value="14">14 h</option>
+                                <option value="15">15 h</option>
+                                <option value="16">16 h</option>
+                                <option value="17">17 h</option>
+                                <option value="18">18 h</option>
+                                <option value="19">19 h</option>
+                                <option value="20">20 h</option>
+                                <option value="21">21 h</option>
+                                <option value="22">22 h</option>
+                                <option value="23">23 h</option>
+                            </select>
+                        </span>
+                    
+                        <!--Minutes-->
+                        <span class="mb-3 xl:w-96">
+                            <select id="minutesAddDebut" class="form-select appearance-none
+                                block
+                                w-full
+                                px-3
+                                py-1.5
+                                text-base
+                                font-normal
+                                text-gray-700
+                                bg-white bg-clip-padding bg-no-repeat
+                                border border-solid border-gray-300
+                                rounded
+                                transition
+                                ease-in-out
+                                m-0
+                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                <option selected>Minutes</option>
+                                <option value="00">00 min</option>
+                                <option value="05">05 min</option>
+                                <option value="10">10 min</option>
+                                <option value="15">15 min</option>
+                                <option value="20">20 min</option>
+                                <option value="25">25 min</option>
+                                <option value="30">30 min</option>
+                                <option value="35">35 min</option>
+                                <option value="40">40 min</option>
+                                <option value="45">45 min</option>
+                                <option value="50">50 min</option>
+                                <option value="55">55 min</option>
+                            </select>
+                        </span>
+                    </div>
+                    <!--/TimePicker-->
+                    <br>
+
+                    <!--TimePicker-->
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 flex justify-center">
+                        Heure de fin :
+                    </label>
+                   <div class="flex justify-center">
+                        
+                        <span class="mb-3 xl:w-96">
+                            <!--Heures-->
+                            <select id="heuresAddFin" class="form-select appearance-none
+                            block
+                            w-full
+                            px-3
+                            py-1.5
+                            text-base
+                            font-normal
+                            text-gray-700
+                            bg-white bg-clip-padding bg-no-repeat
+                            border border-solid border-gray-300
+                            rounded
+                            transition
+                            ease-in-out
+                            m-0
+                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                <option selected>Heures</option>
+                                <option value="00">00 h</option>
+                                <option value="01">01 h</option>
+                                <option value="02">02 h</option>
+                                <option value="03">03 h</option>
+                                <option value="04">04 h</option>
+                                <option value="05">05 h</option>
+                                <option value="06">06 h</option>
+                                <option value="07">07 h</option>
+                                <option value="08">08 h</option>
+                                <option value="09">09 h</option>
+                                <option value="10">10 h</option>
+                                <option value="11">11 h</option>
+                                <option value="12">12 h</option>
+                                <option value="13">13 h</option>
+                                <option value="14">14 h</option>
+                                <option value="15">15 h</option>
+                                <option value="16">16 h</option>
+                                <option value="17">17 h</option>
+                                <option value="18">18 h</option>
+                                <option value="19">19 h</option>
+                                <option value="20">20 h</option>
+                                <option value="21">21 h</option>
+                                <option value="22">22 h</option>
+                                <option value="23">23 h</option>
+                            </select>
+                        </span>
+                    
+                        <!--Minutes-->
+                        <span class="mb-3 xl:w-96">
+                            <select id="minutesAddFin" class="form-select appearance-none
+                                block
+                                w-full
+                                px-3
+                                py-1.5
+                                text-base
+                                font-normal
+                                text-gray-700
+                                bg-white bg-clip-padding bg-no-repeat
+                                border border-solid border-gray-300
+                                rounded
+                                transition
+                                ease-in-out
+                                m-0
+                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                <option selected>Minutes</option>
+                                <option value="00">00 min</option>
+                                <option value="05">05 min</option>
+                                <option value="10">10 min</option>
+                                <option value="15">15 min</option>
+                                <option value="20">20 min</option>
+                                <option value="25">25 min</option>
+                                <option value="30">30 min</option>
+                                <option value="35">35 min</option>
+                                <option value="40">40 min</option>
+                                <option value="45">45 min</option>
+                                <option value="50">50 min</option>
+                                <option value="55">55 min</option>
+                            </select>
+                        </span>
+                    </div>
+                    <!--/TimePicker-->
+                    
+                    <br>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                                Nom de l'activité
+                            </label>
+                            <input id="nomAdd" type="text" placeholder="Nom" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                                Description de l'activité
+                            </label>
+                            <input id="descriptionAdd" type="text" placeholder="Débourrage, soins, éducation ..." class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                                Professionnel
+                            </label>
+                            <select id="proAdd" class="form-select appearance-none
+                            block
+                            w-full
+                            px-3
+                            py-1.5
+                            text-base
+                            font-normal
+                            text-gray-700
+                            bg-white bg-clip-padding bg-no-repeat
+                            border border-solid border-gray-300
+                            rounded
+                            transition
+                            ease-in-out
+                            m-0
+                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                              <option selected>Sélectionnez un professionnel</option>
+                          </select>
+                        </div>
+                        <div id="job_pro" class="font-style: italic block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 w-full px-3"> Métier : </div>
+                    </div>
+
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                                Installation
+                            </label>
+                            <select id="installationsAdd" class="form-select appearance-none
+                            block
+                            w-full
+                            px-3
+                            py-1.5
+                            text-base
+                            font-normal
+                            text-gray-700
+                            bg-white bg-clip-padding bg-no-repeat
+                            border border-solid border-gray-300
+                            rounded
+                            transition
+                            ease-in-out
+                            m-0
+                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                              <option selected>Sélectionnez une installation</option>
+                          </select>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 " for="grid-password">
+                                Prix de l'activité
+                            </label>
+                            <input id="prixAdd" type="number" min="0" max="99999" placeholder="... €" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                        </div>
+                    </div>
+
+                    <!--Bouton Ajouter le pensionnaire-->
+                    <div class="flex fel-wrap justify-center">
+                        <button id="btnAdd" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ease-in-out">
+                            Ajouter l'activité au pensionnaire
+                        </button>
+                    </div>
+                    <!--/Bouton Ajouter l'pensionnaire-->
+
+                    <!--/Ajouter un event-->
+                </div>
+
+                <!--Suppprimer un event-->
+                <div class="w-full md:w-1/2 xl:w-1/3 p-4 rounded focus:ring transform duration-300">
+                    <div class="bg-gradient-to-b from-red-200 to-red-100 border-b-4 border-red-600 rounded-lg shadow-xl p-5">
+                        <div class="flex flex-row items-center">
+                            <div class="flex-shrink pr-4">
+                                <div class="rounded-full p-5 bg-red-600"><i class="fa fa-calendar-minus fa-2x fa-inverse"></i></div>
+                            </div>
+                            <div class="flex-1 text-right md:text-center">
+                                <p class="font-bold text-xl">Supprimer une activité du pensionnaire</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    <!--Bouton Supprimer le pensionnaire-->
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                                
+                            </label>
+                            <select id="eventsDlt" class="form-select appearance-none
+                            block
+                            w-full
+                            px-3
+                            py-1.5
+                            text-base
+                            font-normal
+                            text-gray-700
+                            bg-white bg-clip-padding bg-no-repeat
+                            border border-solid border-gray-300
+                            rounded
+                            transition
+                            ease-in-out
+                            m-0
+                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                              <option selected>Sélectionnez une activité</option>
+                          </select>
+                        </div>
+                    </div>
+                    
+                    <br>
+                    <!--Bouton Supprimer le pensionnaire-->
+                    <div class="flex fel-wrap justify-center">
+                        <button id="btnDlt" class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded ease-in-out">
+                            Supprimer l'activité du pensionnaire
+                        </button>
+                    </div>
+                    <!--/Bouton Supprimer l'pensionnaire-->
+
+
+                </div>
             </div>
         </div>
     </div>
@@ -166,6 +527,5 @@
 </main>
 <script src="https://unpkg.com/flowbite@1.4.5/dist/flowbite.js"></script>
 <script src="js/manage_meetings.js"></script>
-<script src="js/calendar.js"></script>
 </body>
 </html>

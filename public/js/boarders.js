@@ -97,6 +97,50 @@ firebase.auth().onAuthStateChanged((user) =>
         });
     });
 
+//Affichage events du pensionnaire
+const listeBoarders2 = document.getElementById('listeBoarders');
+listeBoarders2.addEventListener('change', () => {
+
+    var Table = document.getElementById("eventsListe");
+    Table.innerHTML = "";
+
+        const events = db.collection('events').get();
+        var idBoarder = listeBoarders.options[listeBoarders.selectedIndex].value;
+        events.then((snap) => {
+            snap.docs.forEach((doc) => {
+                var data = doc.data();
+                var title = data.title;
+                var id_boarder = data.id_boarder;
+                var date_debut = data.date_debut;
+                var heure_debut = data.heure_debut;
+                var id_installation = data.id_installation;
+
+                var docRef = db.collection("installations").doc(id_installation);
+                docRef.get().then((doc) => {
+                    if (doc.exists) {
+                        var data = doc.data();
+                        var nameI = data.name;
+                        title = title.concat(" | Installation: " + nameI);
+
+                        if(idBoarder == id_boarder){
+                            document.getElementById("eventsListe").innerHTML += `
+                                <tr>
+                                    <td>${title}</td>
+                                    <td>${date_debut}</td>
+                                    <td>${heure_debut}</td>
+                                </tr>
+                            `;
+                        }
+
+                    } else {
+                        console.log("No such document!");
+                    }
+                }).catch((error) => {
+                    console.log("Error getting document:", error);
+                });
+            })
+        })
+    });
 });
 
 //Déconnexion

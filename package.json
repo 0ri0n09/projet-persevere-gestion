@@ -5,7 +5,8 @@
     "@fullcalendar/list": "^5.11.0",
     "@fullcalendar/timegrid": "^5.11.0",
     "firebase": "^9.8.0",
-    "firebase-admin": "^10.2.0"
+    "firebase-admin": "^10.2.0",
+    "flowbite": "^1.4.7"
   },
   "name": "projet-persevere-gestion",
   "description": "Projet UF B2 - Persevere",
