@@ -252,83 +252,88 @@ btnAdd.addEventListener('click', () => {
     var id = makePwd(20);
     var idPro = proAdd.options[proAdd.selectedIndex].value; 
     var idInstallation = installationsAdd.options[installationsAdd.selectedIndex].value;
-    let nomPro = "Professionnel 2";
+    let nomPro = "le chat";
 
     //Récupération du nom du pro
     var docRef = db.collection("users").doc(idPro);
     docRef.get().then((doc) => {
+        console.log(nomPro);
         if (doc.exists) {
+            console.log("exists");
             var data = doc.data();
             nomPro = data.name;
-            //console.log(nomPro);
+            // console.log(nomPro);
         } else {
+            console.log("no exists");
             // doc.data() will be undefined in this case
             console.log("No such document!");
         }
+        console.log(nomPro);
     }).catch((error) => {
         console.log("Error getting document:", error);
-    });
+    }).then(() => {
 
-    const dateAddDebut = document.getElementById('dateAddDebut').value;
-    const dateAddFin = document.getElementById('dateAddFin').value;
-    const heuresAddDebut = document.getElementById('heuresAddDebut').value;
-    const minutesAddDebut = document.getElementById('minutesAddDebut').value;
-    const heuresAddFin = document.getElementById('heuresAddFin').value;
-    const minutesAddFin = document.getElementById('minutesAddFin').value;
-    const nomAdd = document.getElementById('nomAdd').value;
-    const descriptionAdd = document.getElementById('descriptionAdd').value;
-    const prixAdd = document.getElementById('prixAdd').value;
-
-    //Conversion dates
-    var date_debut = convertDate(dateAddDebut);
-    var date_fin = convertDate(dateAddFin);
-
-    //Conversion heures BDD
-    var heure_debut = convertHeure(heuresAddDebut, minutesAddDebut);
-    var heure_fin = convertHeure(heuresAddFin, minutesAddFin);
+        const dateAddDebut = document.getElementById('dateAddDebut').value;
+        const dateAddFin = document.getElementById('dateAddFin').value;
+        const heuresAddDebut = document.getElementById('heuresAddDebut').value;
+        const minutesAddDebut = document.getElementById('minutesAddDebut').value;
+        const heuresAddFin = document.getElementById('heuresAddFin').value;
+        const minutesAddFin = document.getElementById('minutesAddFin').value;
+        const nomAdd = document.getElementById('nomAdd').value;
+        const descriptionAdd = document.getElementById('descriptionAdd').value;
+        const prixAdd = document.getElementById('prixAdd').value;
     
-    //Conversion dates et heures début Calendar
-    var date_heure_debut = date_debut;
-    date_heure_debut = date_heure_debut.concat("T");
-    date_heure_debut = date_heure_debut.concat(heure_debut);
-
-    //Conversion dates et heures fin Calendar
-    var date_heure_fin = date_fin;
-    date_heure_fin = date_heure_fin.concat("T");
-    date_heure_fin = date_heure_fin.concat(heure_fin);
-
-    //Titre + description + pro + prix
-    var title = nomAdd;
-    title = title.concat(" | " + descriptionAdd);
-    title = title.concat(" | Professionnel: " + nomPro)
-    title = title.concat(" | Prix: " + prixAdd + " €");
-
-    //Ajout de l'activité à la base de données
-    db.collection("events").doc(id).set({
-        id: id,
-        date_debut: date_debut,
-        date_fin: date_fin,
-        date_heure_debut: date_heure_debut,
-        date_heure_fin: date_heure_fin,
-        description: descriptionAdd,
-        heure_debut: heure_debut,
-        heure_fin: heure_fin,
-        id_boarder: idBoarder,
-        id_installation: idInstallation,
-        id_user: idPro,
-        prix: prixAdd,
-        title: title,
+        //Conversion dates
+        var date_debut = convertDate(dateAddDebut);
+        var date_fin = convertDate(dateAddFin);
+    
+        //Conversion heures BDD
+        var heure_debut = convertHeure(heuresAddDebut, minutesAddDebut);
+        var heure_fin = convertHeure(heuresAddFin, minutesAddFin);
         
-    })
-    .then(() => {
-        
-        alert("L'activité "+ nomAdd +"' a été ajoutée !");
-        location.reload();
-    })
-    .catch((error) => {
-        alert(error);
+        //Conversion dates et heures début Calendar
+        var date_heure_debut = date_debut;
+        date_heure_debut = date_heure_debut.concat("T");
+        date_heure_debut = date_heure_debut.concat(heure_debut);
+    
+        //Conversion dates et heures fin Calendar
+        var date_heure_fin = date_fin;
+        date_heure_fin = date_heure_fin.concat("T");
+        date_heure_fin = date_heure_fin.concat(heure_fin);
+    
+        //Titre + description + pro + prix
+        var title = nomAdd;
+        title = title.concat(" | " + descriptionAdd);
+        title = title.concat(" | Professionnel: " + nomPro)
+        title = title.concat(" | Prix: " + prixAdd + " €");
+    
+        //Ajout de l'activité à la base de données
+        db.collection("events").doc(id).set({
+            id: id,
+            date_debut: date_debut,
+            date_fin: date_fin,
+            date_heure_debut: date_heure_debut,
+            date_heure_fin: date_heure_fin,
+            description: descriptionAdd,
+            heure_debut: heure_debut,
+            heure_fin: heure_fin,
+            id_boarder: idBoarder,
+            id_installation: idInstallation,
+            id_user: idPro,
+            prix: prixAdd,
+            title: title,
+            
+        })
+        .then(() => {
+            
+            alert("L'activité "+ nomAdd +"' a été ajoutée !");
+            location.reload();
+        })
+        .catch((error) => {
+            alert(error);
+        });
+    
     });
-
 });
 
 //Remplissage de la liste eventsDlt
