@@ -17,15 +17,10 @@ firebase.auth().onAuthStateChanged((user) =>
             nameUser = data.name;
             idUser = user.uid;
             document.getElementById("username").innerHTML = nameUser;
-            
-            //Si user est un "admin"
-            if(role == "admin"){
-                window.location.href = './accueil_admin.html';
-            }
 
             //Si user est un "pro"
-            if(role == "pro"){
-                window.location.href = './accueil_pro.html';
+            if(role == "user"){
+                window.location.href = './accueil.html';
             }
 
         } else {
@@ -41,23 +36,98 @@ firebase.auth().onAuthStateChanged((user) =>
 
 
     //Remplissage listeBoarders selon l'utilisateur courant
-    const boarders = db.collection('boarders').get();
-    boarders.then((snap) => {
-        snap.docs.forEach((doc) => {
-            var data = doc.data();
-            var name = data.name;
-            var id = data.id;
-            var id_user = data.id_user;
-            
-            if(idUser == id_user){
-                document.getElementById("listeBoarders").innerHTML += `
-                    <option value="${id}">${name}</option>
-                `;
-            }
-        })
-    });
-});
+    const events = db.collection('events').get();
+    var id_boarder;
+    var id_user;
+    events.then((snap) => {
+            snap.docs.forEach((doc) => {
+                var data = doc.data();
+                id_user = data.id_user;
+                id_boarder = data.id_boarder;
+            })
+            const boarders = db.collection('boarders').get();
+            boarders.then((snap) => {
+                snap.docs.forEach((doc) => {
+                    var data = doc.data();
+                    var name = data.name;
+                    var id = data.id;
+                    
+                    if(user.uid == id_user){
+                        document.getElementById("listeBoarders").innerHTML += `
+                            <option value="${id_boarder}">${name}</option>
+                        `;
+                    }
+                })
+            });
 
+        //Remplissage demandes Liste
+        const eventsDemandes = db.collection('events').get();
+        eventsDemandes.then((snap) => {
+        snap.docs.forEach((doc) => {
+        var data = doc.data();
+        var title = data.title;
+        var date_debut = data.date_debut;
+        var heure_debut = data.heure_debut;
+        var approved = data.approved;
+        var id_user = data.id_user;
+        var id = data.id;
+
+        if(approved == "false" && id_user == user.uid)
+        {
+            document.getElementById("demandesListe").innerHTML += `
+                                <tr>
+                                    <td>${title}</td>
+                                    <td>${date_debut}</td>
+                                    <td>${heure_debut}</td>
+                                    
+                                    <br>
+                                    <div class="flex fel-wrap justify-center">
+                                        <button id="btnAccepter" class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ease-in-out">
+                                            Accepter
+                                        </button>
+                                    </div>
+                                    <br>
+                                    <div class="flex fel-wrap justify-center">
+                                        <button id="btnRefuser" class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded ease-in-out">
+                                            Refuser
+                                        </button>
+                                    </div>
+                                    
+                                </tr>
+            `;
+
+            //Accepter la demande de RDV
+            const btnAccepter = document.getElementById('btnAccepter');
+            btnAccepter.addEventListener('click', () => {
+                
+                db.collection("events").doc(id).update({
+                    approved: "true",
+                })
+                .then(() => {
+                    alert("Le rendez-vous a été accepté !");
+                    location.reload();
+                })
+                .catch(function(error) {
+                    alert(error);
+                });
+    
+            });
+
+            //Refus et suppression du rendez-vous
+            const btnRefuser = document.getElementById('btnRefuser');
+            btnRefuser.addEventListener('click', () => {
+                db.collection("events").doc(id).delete().then(() => {
+                    alert("Le rendez-vous à bien été refusé");
+                    location.reload();
+                    }).catch((error) => {
+                        alert.error("Error removing document: ", error);
+                    });
+                });
+        }
+    })
+});
+    
+});
 
 //Affichage des activités selon le pensionnaire sélectionné
 const listeBoarders = document.getElementById('listeBoarders');
@@ -89,6 +159,7 @@ listeBoarders.addEventListener('click', () => {
             var date_heure_fin = data.date_heure_fin;
             var id_installation = data.id_installation;
             var approved = data.approved;
+            id_user = data.id_user;
 
             var docRef = db.collection("installations").doc(id_installation);
             docRef.get().then((doc) => {
@@ -97,13 +168,24 @@ listeBoarders.addEventListener('click', () => {
                     var nameI = data.name;
                     title = title.concat(" | Installation: " + nameI);
 
-                    if(id_boarder == idBoarder && approved == "true"){
+                    firebase.auth().onAuthStateChanged((user) => 
+                    {
+                        if (user) {
+                        //console.log(user)
+                        }
 
-                        calendar.addEvent({
-                        title: title,
-                        start: date_heure_debut,
-                        end : date_heure_fin
-                        });
+                        if(id_boarder == idBoarder && approved == "true" && id_user == user.uid){
+
+                            calendar.addEvent({
+                            title: title,
+                            start: date_heure_debut,
+                            end : date_heure_fin
+                            });
+                        }
+                    });
+                    
+                    if(title == "a"){
+                        console.log("TESTA");
                     }
 
                 } else {
@@ -115,35 +197,36 @@ listeBoarders.addEventListener('click', () => {
         })
     })
 })
+});
 
 //Calendar
 var calendar;
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
-      calendar = new FullCalendar.Calendar(calendarEl, {
-      timeZone: 'UTC',
-      locale: 'fr',
+    calendar = new FullCalendar.Calendar(calendarEl, {
+    timeZone: 'UTC',
+    locale: 'fr',
 
-      headerToolbar: {
+    headerToolbar: {
         left: 'prevYear,prev,next,nextYear today',
         center: 'title',
         right: 'dayGridMonth,dayGridWeek,dayGridDay'
-      },
+    },
 
-      
-      initialDate: Date.now(),
-      navLinks: true, // can click day/week names to navigate views
-      editable: false,
-      dayMaxEvents: true, // allow "more" link when too many events
+    
+    initialDate: Date.now(),
+    navLinks: true, // can click day/week names to navigate views
+    editable: false,
+    dayMaxEvents: true, // allow "more" link when too many events
 
-      events: [
+    events: [
         {
-          title: "Meeting "+"| test",
-          start: '2022-05-29T10:30:00',
-          end: '2022-05-29T12:30:00'
+        title: "Meeting "+"| test",
+        start: '2022-05-29T10:30:00',
+        end: '2022-05-29T12:30:00'
         },
-      ],
+    ],
     });
     
     calendar.setOption('aspectRatio', 1.8);
@@ -288,7 +371,7 @@ btnAdd.addEventListener('click', () => {
             id_user: idPro,
             prix: prixAdd,
             title: title,
-            approved: "false",
+            approved: "true",
         })
         .then(() => {
             
@@ -371,9 +454,9 @@ function makePwd(length) {
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
     for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-   }
-   return result;
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+}
+return result;
 }
 
 //Logout
@@ -382,3 +465,5 @@ logout.addEventListener('click', () => {
     firebase.auth().signOut();
     window.location.href = './index.html';
 });
+
+

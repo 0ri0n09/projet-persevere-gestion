@@ -322,7 +322,7 @@ btnAdd.addEventListener('click', () => {
             id_user: idPro,
             prix: prixAdd,
             title: title,
-            
+            approved: "true",
         })
         .then(() => {
             

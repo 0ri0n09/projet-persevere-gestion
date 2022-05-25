@@ -30,11 +30,6 @@ firebase.auth().onAuthStateChanged((user) =>
             nameUser = data.name;
             document.getElementById("username").innerHTML = nameUser;
             //console.log("nameUSER : "+nameUser);
-
-            //Si user est un "pro"
-            if(role == "pro"){
-                window.location.href = './accueil_pro.html';
-            }
             
         } else {
             // doc.data() will be undefined in this case

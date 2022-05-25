@@ -21,6 +21,11 @@ firebase.auth().onAuthStateChanged((user) =>
             if(role == "admin"){
                 window.location.href = './accueil_admin.html';
             }
+
+            //Si user est un "admin"
+            if(role == "pro"){
+                window.location.href = './accueil_pro.html';
+            }
             
         } else {
             // doc.data() will be undefined in this case
