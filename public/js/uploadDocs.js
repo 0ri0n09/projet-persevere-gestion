@@ -69,6 +69,7 @@ uploadBtn.addEventListener('click', () => {
         task
         .then(snapshot => snapshot.ref.getDownloadURL())
         .then((url) => {
+            //Ajout du document à la base de données
             db.collection("documents").add({
                 downloadURL: url,
                 id_user: idUser,

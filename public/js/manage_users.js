@@ -83,9 +83,8 @@ validateUser.addEventListener('click', () => {
                 ville: ville.value,
             })
             .then(() => {
-                //console.log("Document written with ID:", userUID);
                 
-                //Envoie de la réinitialisation du mot de passe à l'email du user
+                //Envoi de la réinitialisation du mot de passe à l'email du user
                 secondaryApp.auth().sendPasswordResetEmail(email.value)
                 .then(() => {
                     alert("Utilisateur a été ajouté | L'email pour la création du mot de passe à été envoyé !");

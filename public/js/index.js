@@ -19,6 +19,7 @@ const password = document.getElementById('password');
 
 const loginBtn = document.getElementById('login');
 loginBtn.addEventListener('click', () => {
+        //On définit la persistence si les identifiants sont corrects
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
             .then(() => {
                 

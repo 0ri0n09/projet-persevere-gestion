@@ -395,7 +395,6 @@ function convertHeure(heure, minute) {
     heure_full = heure_full.concat(":");
     heure_full = heure_full.concat(minute);
     heure_full = heure_full.concat(":00");
-    
     return heure_full;
 }
 
