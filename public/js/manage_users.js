@@ -24,7 +24,7 @@ firebase.auth().onAuthStateChanged((user) =>
     var docRef = db.collection("users").doc(user.uid);
     docRef.get().then((doc) => {
         if (doc.exists) {
-            console.log("Document data:", doc.data());
+            //console.log("Document data:", doc.data());
             var data = doc.data();
             var role = data.role;
             nameUser = data.name;
@@ -209,7 +209,6 @@ listeUsersModifier.addEventListener('change', () => {
             document.getElementById('adresseUserModifier').value = adresse;
             document.getElementById('villeUserModifier').value = ville;
             document.getElementById('postalUserModifier').value = code_postal;
-            document.forms[0].submit();
             
         } else {
             console.log("No such document!");
