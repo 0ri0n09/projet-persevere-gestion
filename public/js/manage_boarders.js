@@ -317,6 +317,26 @@ function makePwd(length) {
    return result;
 }
 
+//Nombre total de pensionnaires
+let cptP = 0;
+const boarders = db.collection('boarders').get();
+boarders.then((snap) => {
+    snap.docs.forEach((doc) => {
+        cptP++;
+    })
+
+    document.getElementById("nbrBoarders").innerHTML += `
+    <!--Retour-->
+    <div class="md:w-1/2 xl:w-1/3 p-1">
+        
+        <div class="px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-orange-600 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-orange-600 transition duration-300">
+            Nombre total de pensionnaires inscrits : <span class="font-bold">${cptP}</span>
+        </div>
+        
+    </div>
+    `;
+});
+
 //Déconnexion
 const logout = document.getElementById('logout');
 logout.addEventListener('click', () => {
